@@ -117,14 +117,6 @@ const CategoryPage: React.FC = () => {
                 : 'bg-white text-slate-600 hover:bg-rose-50'
               }`}
             >
-              {/* Active Background Animation */}
-              {activeCategory === cat && (
-                <motion.div 
-                  layoutId="activePill"
-                  className="absolute inset-0 bg-rose-600 -z-10"
-                  transition={{ type: "spring", stiffness: 380, damping: 30 }}
-                />
-              )}
               {cat}
             </button>
           ))}
