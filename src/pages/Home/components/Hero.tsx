@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
     if (isAnimating) return;
     setIsAnimating(true);
     setCurrent((prev) => (prev === SLIDES.length - 1 ? 0 : prev + 1));
-    setTimeout(() => setIsAnimating(false), 1000); // Transition müddəti ilə eyni
+    setTimeout(() => setIsAnimating(false), 1000);
   }, [isAnimating]);
 
   useEffect(() => {
@@ -51,7 +51,7 @@ const Hero: React.FC = () => {
   }, [nextSlide]);
 
   return (
-    <section className="relative h-[90vh] w-full overflow-hidden bg-slate-50 mt-[100px]">
+    <section className="relative min-h-[100vh] lg:h-[90vh] w-full overflow-hidden bg-slate-50 pt-[150px] lg:pt-0">
       {SLIDES.map((slide, index) => (
         <div
           key={slide.id}
@@ -59,40 +59,43 @@ const Hero: React.FC = () => {
             index === current ? 'opacity-100 scale-100' : 'opacity-0 scale-110 pointer-events-none'
           }`}
         >
-        
+          {/* Arxa fon rəngi */}
           <div className={`absolute inset-0 ${slide.color} opacity-60`} />
           
-          <div className="relative h-full max-w-7xl mx-auto px-6 flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div className="relative h-full max-w-7xl mx-auto px-4 sm:px-6 flex flex-col lg:flex-row items-center justify-center lg:justify-between gap-8 lg:gap-12 py-12 lg:py-0">
             
-     
-            <div className="w-full lg:w-1/2 z-10 space-y-8 mt-20 lg:mt-0">
+            {/* Mətn Content-i */}
+            <div className="w-full lg:w-1/2 z-10 space-y-4 md:space-y-8 text-center lg:text-left">
               <div className="overflow-hidden">
-                <h1 className={`text-5xl lg:text-7xl font-serif font-black text-slate-900 leading-tight transition-transform duration-700 delay-300 ${
+                <h1 className={`text-4xl md:text-6xl lg:text-7xl font-serif font-black text-slate-900 leading-[1.1] transition-transform duration-700 delay-300 ${
                   index === current ? 'translate-y-0' : 'translate-y-full'
                 }`}>
                   {slide.title}
                 </h1>
               </div>
               
-              <p className={`text-lg text-slate-600 max-w-lg transition-all duration-700 delay-500 ${
+              <p className={`text-base md:text-lg text-slate-600 max-w-lg mx-auto lg:mx-0 transition-all duration-700 delay-500 ${
                 index === current ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}>
                 {slide.subtitle}
               </p>
 
-              <div className={`flex gap-4 transition-all duration-700 delay-700 ${
+              <div className={`flex justify-center lg:justify-start gap-4 transition-all duration-700 delay-700 ${
                 index === current ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
               }`}>
-                <button onClick={() => navigate("/category")} className="cursor-pointer px-8 py-4 border-2 border-slate-900 text-slate-900 font-bold rounded-full hover:bg-slate-900 hover:text-white transition-all">
+                <button 
+                  onClick={() => navigate("/category")} 
+                  className="cursor-pointer px-6 py-3 md:px-8 md:py-4 border-2 border-slate-900 text-slate-900 font-bold rounded-full hover:bg-slate-900 hover:text-white transition-all text-sm md:text-base"
+                >
                   Menyunu Gör
                 </button>
               </div>
             </div>
 
-     
-            <div className="w-full lg:w-1/2 h-[400px] lg:h-[600px] relative">
-              <div className={`absolute inset-0 rounded-[2rem] overflow-hidden shadow-2xl transition-transform duration-[1500ms] ease-out ${
-                index === current ? 'translate-x-0 rotate-0 scale-100' : 'translate-x-20 rotate-3 scale-90'
+            {/* Şəkil Content-i */}
+            <div className="w-full lg:w-1/2 h-[300px] sm:h-[400px] lg:h-[550px] relative px-4 sm:px-0">
+              <div className={`absolute inset-0 rounded-[1.5rem] md:rounded-[2.5rem] overflow-hidden shadow-2xl transition-transform duration-[1500ms] ease-out ${
+                index === current ? 'translate-x-0 rotate-0 scale-100' : 'translate-x-10 lg:translate-x-20 rotate-3 scale-90'
               }`}>
                 <img 
                   src={slide.image} 
@@ -101,9 +104,10 @@ const Hero: React.FC = () => {
                 />
               </div>
               
-              <div className="absolute -bottom-6 -left-6 w-32 h-32 bg-white p-4 rounded-2xl shadow-lg hidden lg:block animate-bounce">
+              {/* Balaca üzən element (yalnız böyük ekranlarda) */}
+              <div className="absolute -bottom-4 -left-4 w-20 h-20 md:w-28 md:h-28 bg-white p-3 md:p-4 rounded-2xl shadow-lg hidden md:block animate-bounce">
                 <div className="w-full h-full bg-rose-100 rounded-lg flex items-center justify-center">
-                  <span className="text-3xl">🍰</span>
+                  <span className="text-2xl md:text-3xl">🍰</span>
                 </div>
               </div>
             </div>
@@ -111,14 +115,14 @@ const Hero: React.FC = () => {
         </div>
       ))}
 
- 
-      <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-3 z-20">
+      {/* İndikatorlar (Nöqtələr) */}
+      <div className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 flex gap-2 md:gap-3 z-20">
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => setCurrent(i)}
-            className={`h-2 transition-all duration-300 rounded-full ${
-              i === current ? 'w-12 bg-rose-600' : 'w-2 bg-slate-300'
+            className={`h-1.5 md:h-2 transition-all duration-300 rounded-full ${
+              i === current ? 'w-8 md:w-12 bg-rose-600' : 'w-1.5 md:w-2 bg-slate-300'
             }`}
           />
         ))}

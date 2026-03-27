@@ -6,18 +6,15 @@ import { addToCart, toggleFav } from '../store/product';
 import type { RootState } from '../store/store';
 import toast from 'react-hot-toast';
 
-
-
-const ProductCard: React.FC<{ product: Product; onAction?: (key: 'cart' | 'fav', p: Product) => void }> = ({ product }) => {
- 
+const ProductCard: React.FC<{ product: Product }> = ({ product }) => {
   const dispatch = useDispatch();
-
 
   const isFav = useSelector((state: RootState) => 
     state.shop.favs.some(f => f.id === product.id)
   );
 
-  const handleCart = () => {
+  const handleCart = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Kartın özünə kliklənməsinin qarşısını alır
     dispatch(addToCart(product));
     toast.success(`${product.name} səbətə əlavə edildi!`, {
       icon: '🍰',
@@ -25,60 +22,88 @@ const ProductCard: React.FC<{ product: Product; onAction?: (key: 'cart' | 'fav',
     });
   };
 
-  const handleFav = () => {
+  const handleFav = (e: React.MouseEvent) => {
+    e.stopPropagation();
     dispatch(toggleFav(product));
     toast(isFav ? "Favoritlərdən silindi" : "Favoritlərə əlavə edildi", {
       icon: isFav ? '💔' : '❤️'
     });
   };
- 
+
   return (
-    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100">
-   
+    <div className="group relative bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 flex flex-col h-full">
+      
+      {/* Endirim Badge-i */}
       {product.discount && (
-        <span className="absolute top-4 left-4 z-10 bg-rose-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg animate-pulse">
+        <span className="absolute top-3 left-3 z-20 bg-rose-600 text-white text-[10px] md:text-xs font-bold px-2 py-1 md:px-3 md:py-1.5 rounded-full shadow-lg">
           -{product.discount}%
         </span>
       )}
 
-      <div className="relative aspect-[4/5] overflow-hidden bg-slate-100">
+      {/* Şəkil Konteyneri */}
+      <div className="relative aspect-square md:aspect-[4/5] overflow-hidden bg-slate-50">
         <img 
           src={product.image} 
           alt={product.name}
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
         />
         
-
-        <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 backdrop-blur-[2px]">
-       
-          
+        {/* Desktop Hover Düymələri (lg+ ekranlarda) */}
+        <div className="hidden lg:flex absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 items-center justify-center gap-3 backdrop-blur-[2px]">
           <button 
             onClick={handleFav} 
-            className={`cursor-pointer p-3 rounded-full transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75 shadow-xl ${isFav ? 'bg-rose-600 text-white' : 'bg-white text-slate-900 hover:bg-rose-600 hover:text-white'}`}
+            className={`p-3 rounded-full transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 shadow-xl ${
+              isFav ? 'bg-rose-600 text-white' : 'bg-white text-slate-900 hover:bg-rose-600 hover:text-white'
+            }`}
           >
             <FiHeart size={20} fill={isFav ? "currentColor" : "none"} />
           </button>
           
           <button 
             onClick={handleCart} 
-            className="cursor-pointer p-3 bg-white rounded-full text-slate-900 hover:bg-rose-600 hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-150 shadow-xl"
+            className="p-3 bg-white rounded-full text-slate-900 hover:bg-rose-600 hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300 delay-75 shadow-xl"
           >
             <FiShoppingCart size={20} />
           </button>
         </div>
+
+        {/* Mobil üçün Sürətli Sevimli Düyməsi (Şəklin üstündə sağda) */}
+        <button 
+          onClick={handleFav}
+          className="lg:hidden absolute top-3 right-3 z-20 p-2 bg-white/80 backdrop-blur-md rounded-full shadow-md text-slate-900"
+        >
+          <FiHeart size={18} className={isFav ? "fill-rose-600 text-rose-600" : ""} />
+        </button>
       </div>
 
-      <div className="p-5 space-y-2">
-        <h3 className="font-serif text-lg font-bold text-slate-800 truncate">{product.name}</h3>
-        <div className="flex items-center gap-3 font-sans">
-          <span className="text-xl font-black text-rose-600">{product.currentPrice} AZN</span>
-          {product.oldPrice && (
-            <span className="text-sm text-slate-400 line-through">{product.oldPrice} AZN</span>
-          )}
+      {/* Məlumat hissəsi */}
+      <div className="p-3 md:p-5 flex flex-col flex-grow justify-between">
+        <div className="space-y-1">
+          <h3 className="font-serif text-sm md:text-lg font-bold text-slate-800 line-clamp-1 md:line-clamp-2 leading-snug">
+            {product.name}
+          </h3>
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-base md:text-xl font-black text-rose-600">
+              {product.currentPrice} AZN
+            </span>
+            {product.oldPrice && (
+              <span className="text-[10px] md:text-sm text-slate-400 line-through">
+                {product.oldPrice} AZN
+              </span>
+            )}
+          </div>
         </div>
+
+        {/* Mobildə Səbətə At düyməsi (Həmişə görünən) */}
+        <button 
+          onClick={handleCart}
+          className="lg:hidden mt-3 w-full py-2 bg-slate-900 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-2 active:scale-95 transition-transform"
+        >
+          <FiShoppingCart size={14} /> Səbətə at
+        </button>
       </div>
     </div>
   );
 };
 
-export default ProductCard
+export default ProductCard;
