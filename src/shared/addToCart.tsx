@@ -18,6 +18,7 @@ const showToast = (message: string, type: 'success' | 'info' = 'success') => {
   }, 3000);
 };
 
+
 export const addToStorage = (key: 'cart' | 'fav', product: Product) => {
   const existing = JSON.parse(localStorage.getItem(key) || '[]');
   const isExist = existing.find((item: Product) => item.id === product.id);
@@ -29,4 +30,7 @@ export const addToStorage = (key: 'cart' | 'fav', product: Product) => {
   } else {
     showToast(`${product.name} artıq əlavə olunub`, 'info');
   }
+
+return <>{toasts}</>
+
 };

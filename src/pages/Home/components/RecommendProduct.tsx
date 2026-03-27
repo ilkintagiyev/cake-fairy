@@ -1,5 +1,4 @@
 import React, { useState, useMemo } from 'react';
-import { FiShoppingCart, FiHeart, FiEye } from 'react-icons/fi';
 import type { Product } from '../../../types/products';
 import ProductCard from '../../../shared/ProductCard';
 

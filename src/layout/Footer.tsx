@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FiInstagram, FiFacebook, FiTwitter, FiMail, FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
+import { FiInstagram, FiFacebook, FiTwitter,  FiPhone, FiMapPin, FiSend } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 
 const Footer: React.FC = () => {

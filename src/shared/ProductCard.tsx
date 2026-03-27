@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { FiShoppingCart, FiHeart, FiEye } from 'react-icons/fi';
+import React from 'react';
+import { FiShoppingCart, FiHeart } from 'react-icons/fi';
 import type { Product } from '../types/products';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, toggleFav } from '../store/product';
@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 
 
 
-const ProductCard: React.FC<{ product: Product; onAction?: (key: 'cart' | 'fav', p: Product) => void }> = ({ product,onAction }) => {
+const ProductCard: React.FC<{ product: Product; onAction?: (key: 'cart' | 'fav', p: Product) => void }> = ({ product }) => {
  
   const dispatch = useDispatch();
 

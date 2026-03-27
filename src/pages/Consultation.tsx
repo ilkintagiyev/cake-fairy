@@ -1,5 +1,5 @@
 import React from 'react';
-import { FiCalendar, FiClock, FiMessageCircle, FiCheckCircle } from 'react-icons/fi';
+import { FiCalendar,  FiMessageCircle, FiCheckCircle } from 'react-icons/fi';
 import toast from 'react-hot-toast';
 import Main from '../layout/Main';
 

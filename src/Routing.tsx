@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { Suspense, lazy } from 'react'
+import { Suspense } from 'react'
 import Home from './pages/Home'
 import Favorites from './pages/Favourites'
 import Cart from './pages/Cart'

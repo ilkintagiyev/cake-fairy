@@ -1,4 +1,3 @@
-import React from 'react'
 import Main from '../../layout/Main'
 import Hero from './components/Hero'
 import ProductSection from './components/MainProducts'
