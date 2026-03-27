@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
 import ProductCard from '../shared/ProductCard';
 import Main from '../layout/Main';
 
@@ -131,26 +130,10 @@ const CategoryPage: React.FC = () => {
           ))}
         </div>
 
-        {/* Products Grid with Animation */}
-        <motion.div 
-          layout
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8"
-        >
-          <AnimatePresence mode='popLayout'>
+       
             {filteredProducts.map((product:any) => (
-              <motion.div
-                key={product.id}
-                layout
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-                transition={{ duration: 0.3 }}
-              >
                 <ProductCard product={product} />
-              </motion.div>
             ))}
-          </AnimatePresence>
-        </motion.div>
 
         {/* Empty State */}
         {filteredProducts.length === 0 && (
